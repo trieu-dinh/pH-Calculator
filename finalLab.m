@@ -33,11 +33,11 @@ function [] = finalLab
     vb.Position = [60 135 50 40];
     calc.Position = uicontrol('style','pushbutton','position', [60 85 75 35],'string',' Calculate '); % the calculate button
 end
-    function [] = CalculatePH(input1,input2,input3,input4) %CalculatePH calculates the pH for a strong acid/base dissociation
-        Ma = input1('Enter the Molarity of the acid >');
-        Mb = input2('Enter the Molarity of the base >');
-        Va = input3('Enter the volume of acid used >');
-        Vb = input4('Enter the volume of base used >');
+    function [] = CalculatePH() %CalculatePH calculates the pH for a strong acid/base dissociation
+        Ma = input('Enter the Molarity of the acid >');
+        Mb = input('Enter the Molarity of the base >');
+        Va = input('Enter the volume of acid used >');
+        Vb = input('Enter the volume of base used >');
         z = (Ma*Va - Mb*Vb)/(Va+Vb);
         Kw = 1e-14; %equilibrium constant (water)
         p =[ 1 -z -1e-14];
@@ -45,11 +45,11 @@ end
         Hydrogenplus= max(Hydrogen); %takes only the positive, "max" root value
         pH = -log10(Hydrogenplus);
         if  pH>7 && pH<=14
-            msgbox('The pH of the solution is =%.3f',pH)
+            f = msgbox(sprintf('The pH of the solution is = %.3f',pH))
         elseif pH>=1 && pH<=7
-            msgbox('The pH of the solution is =%.3f',pH)
+            f = msgbox(sprintf('The pH of the solution is = %.3f',pH))
         else
-            msgbox('sorry, input cannot be possible')
+            f =  msgbox(sprintf('sorry, input cannot be possible'))
         end
     end
 
