@@ -12,32 +12,27 @@ pH.maText = uicontrol('Style','text','String',' Molarity Acid:','position',[60 2
 pH.mbText = uicontrol('Style','text','String',' Molarity Base:','position',[60 235 50 40],'units','normalized');
 pH.vaText = uicontrol('Style','text','String',' Volume Acid:','position',[60 185 50 40],'units','normalized');
 pH.vbText = uicontrol('Style','text','String',' Volume Base:','position',[60 135 50 40],'units','normalized');
-pH.outputText = uicontrol('Style','text','String','Output: ','position',[120 200 50 40],'units',normalized');
+pH.outputText = uicontrol('Style','text','String','Output: ','position',[200 200 50 40],'units','normalized');
 pH.calc = uicontrol('style','pushbutton','position', [60 85 75 35],'string',' Calculate ','callback',{@selection},'units','normalized'); % the calculate button
+pH.quit = uicontrol('style','
 end
 function [] = selection(~,~)
 global pH;
 Ma = str2double(pH.molarityAcidEdit.String);
-Mb = str2double(pH.molarityAcidEdit.String);
-Va = str2double(pH.molarityAcidEdit.String);
-Ma = str2double(pH.molarityAcidEdit.String);
-
+Mb = str2double(pH.molarityBaseEdit.String);
+Va = str2double(pH.volumeAcidEdit.String);
+Vb = str2double(pH.volumeBaseEdit.String);
+pH.calcResult = CalculatePH(Ma,Mb,Va,Vb);
+pH.outputText.String = ['output: ' num2str(pH.calcResult)];
 end
-function [] = CalculatePH(Ma,Mb,Va,Vb) %CalculatePH calculates the pH for a strong acid/base dissociation
 
+function [pH] = CalculatePH(Ma,Mb,Va,Vb) %CalculatePH calculates the pH for a strong acid/base dissociation
 z = (Ma*Va - Mb*Vb)/(Va+Vb);
 Kw = 1e-14; %equilibrium constant (water)
 p =[ 1 -z -1e-14];
 Hydrogen = roots(p); %quadratic formula equation to find possible answers
 Hydrogenplus= max(Hydrogen); %takes only the positive, "max" root value
 pH = -log10(Hydrogenplus);
-if  pH>7 && pH<=14
-    f = msgbox(sprintf('The pH of the solution is = %.3f',pH))
-elseif pH>=1 && pH<=7
-    f = msgbox(sprintf('The pH of the solution is = %.3f',pH))
-else
-    f = msgbox(sprintf('Sorry, input cannot be possible.'))
-end
 end
 
 
